@@ -19,7 +19,7 @@ export const AdminDashboardPage = () => {
             navigate("/")
         }
 
-        else if(role!='ROLE_ADMIN'){
+        else if(!role.includes('ROLE_ADMIN')){
 navigate("/userDashboard")
         }
         

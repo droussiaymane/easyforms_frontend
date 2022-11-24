@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,18 +8,32 @@ import Avatar from '@mui/material/Avatar';
 import { green, pink } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Button } from "@mui/material";
+import { Button, fabClasses } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { getUsername,getUserRole } from '../services/user.service';
 
 export const TopBarComponent = () => {
+    const [switched,setSwitched]=useState(sessionStorage.getItem("switched"))
+    
+    
     const navigate = useNavigate();
-   
+    let userName=getUsername();
+    let userRole=getUserRole();
+
     function handleLogout(){
         AuthService.logout();
                 navigate("/");
+    }
+    function switchHandle(){
+        AuthService.logout();
+        localStorage.setItem("user",localStorage.getItem('user_'))
+localStorage.setItem("id",localStorage.getItem('id_'))
+localStorage.setItem("role",JSON.stringify('ROLE_ADMIN'))
+        sessionStorage.setItem("switched",false)
+        navigate("/AdminDashboard");
     }
     return (
         <AppBar position="static">
@@ -51,8 +65,20 @@ export const TopBarComponent = () => {
                                 <LogoutIcon />
                             </Avatar>
                         </Button>
+                       
+                      
                     </Stack>
+                    <div className="marginLeft">
+                        <p
+                            
+                            >
+                                EMAIL : {userName} , 
+                                ROLE : {userRole}<span> </span>
+                               {switched=='true' &&  <Button onClick={switchHandle} style={{ backgroundColor:"white"}}>SWITCH BACK</Button>}
+                            </p>
+                        </div>
                 </Toolbar>
+                
             </Container>
         </AppBar>
     )

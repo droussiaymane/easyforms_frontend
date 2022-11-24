@@ -20,14 +20,16 @@ import PropTypes from 'prop-types';
 import { Container } from '@mui/system';
 import ChangePermissionsComponent from './ChangePermissionsComponent';
 import UpdateUserPopupComponent from './UpdateUserPopupComponent';
-import { deleteUser } from '../services/user.service';
+import { blockUser, deleteUser ,impersionate} from '../services/user.service';
+import { useNavigate } from 'react-router-dom';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-export default function ActionsComponent({ username }) {
+export default function ActionsComponent({ username,active }) {
+const navigate=useNavigate();
   const [openToggle, setOpenToggle] = React.useState(false);
   const anchorRef = React.useRef(null);
-
+console.log(active)
   const [openPopupPermission, setOpenPopupPermission] = React.useState(false);
   const [openPopupUpdate, setOpenPopupUpdate] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
@@ -51,6 +53,17 @@ export default function ActionsComponent({ username }) {
     deleteUser(username)
     handleCloseToggle(event)
   }
+  const handleClickOpenPopupBlock = (value) => {
+    blockUser(username)
+    setOpenPopupUpdate(false);
+};
+  
+const handleClickOpenPopupImpersionate = (value) => {
+  
+  impersionate(username).then((res)=>navigate("/userDashboard")).catch(err=>console.log(err));
+  sessionStorage.setItem("switched",true)
+  setOpenPopupUpdate(false);
+};
 
   const handleToggle = () => {
     setOpenToggle((prevOpen) => !prevOpen);
@@ -122,8 +135,8 @@ export default function ActionsComponent({ username }) {
                   >
                     <MenuItem onClick={(event) => {handleClickOpenPopupPermission(); handleCloseToggle(event); }}>Change Permissions</MenuItem>
                     <MenuItem onClick={(event) => {handleClickOpenPopupUpdate(); handleCloseToggle(event); }}>Update</MenuItem>
-                    <MenuItem onClick={handleCloseToggle}>Impersionate</MenuItem>
-                    <MenuItem onClick={handleCloseToggle}>Block</MenuItem>
+                    <MenuItem onClick={(event) => {handleClickOpenPopupImpersionate(); handleCloseToggle(event); }}>Impersionate</MenuItem>
+                    <MenuItem onClick={(event) => {handleClickOpenPopupBlock(); handleCloseToggle(event); }}>{active ? <>Block</>:<>Unlock</>}</MenuItem>
                     <MenuItem onClick={(event) => handleRemove(event, username)}>Delete</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

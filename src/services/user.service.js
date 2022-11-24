@@ -1,61 +1,75 @@
+import { idID } from '@mui/material/locale';
 import axios from 'axios';
 
 import jwt_decode from "jwt-decode";
+import authService from './auth.service';
 
-const API_URL_USER="http://localhost:9090/";
+const API_URL_USER="http://localhost:8899/";
 
 export function getUsername(){
   const token = localStorage.getItem("user")
-  const decodedToken = jwt_decode(token)
-  const username = decodedToken["sub"]
-  return username
+  if(token!=undefined){
+    const decodedToken = jwt_decode(token)
+    const username = decodedToken["sub"]
+    return username
+  }
+  
 }
 
 export function getUserRole(){
-  const role = localStorage.getItem("role")
-  
+  let role = String(JSON.parse(localStorage.getItem("role")))
+  if(!role.includes("ROLE_ADMIN")){
+role="USER"
+  }
+  else{
+     role="ADMIN"
+  }
   return role
 }
 
 export const getUsers = async () => {
-  const data = await axios(API_URL_USER+'getUsers', {
+  return await axios(API_URL_USER+'getUsers', {
       method: 'GET',
       // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("user") }
   });
-  const users = await data.json();
-  return users  
+   
 }
+export const impersionate =  (userId) => {
+// userid to    impersionate
+// logout 
+localStorage.setItem("user_",localStorage.getItem('user'))
+localStorage.setItem("id_",localStorage.getItem('id'))
+authService.logout();
+// login with userId
+return authService.loginTemporery(userId);
+
+}
+
+
+export const blockUser = async (username) => {
+  return await axios(API_URL_USER+'blockUser/'+username, {
+      method: 'GET',
+      // credentials: 'include', // Don't forget to specify this if you need cookies
+  });
+   
+}
+
 
 export const updateUserRoles = async (username, newRoles) => {
-  const data = await axios(`${API_URL_USER}editUserRoles/${username}`, {
-      method: 'PUT',
-      body: JSON.stringify(newRoles),
-      // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("user"), 'Content-Type': 'application/json' },
-
-  });
-  const users = await data.json();
-  return users  
+  return await axios.put(`${API_URL_USER}editUserRoles/${username}`, newRoles);
+  
 }
 
-export const createUser = async (userData) => {
-  const data = await axios(API_URL_USER+'registerNewUser', {
-      method: 'POST',
-      body: JSON.stringify(userData),
-      // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("user"), 'Content-Type': 'application/json' },
 
-  });
-  const newUser = await data.json();
-  return newUser  
+export const createUser = async (userData) => {
+  return await axios.post(API_URL_USER+'registerNewUser',userData);
+  
 }
 
 export const deleteUser = async (userName) => {
   return await axios(`${API_URL_USER}deleteUser/${userName}`, {
       method: 'DELETE',
       // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("user")},
 
   }).catch((err) => {
       console.log(err)
@@ -64,24 +78,14 @@ export const deleteUser = async (userName) => {
 }
 
 export const updateUser = async (userName, newUserData) => {
-  return await axios(`${API_URL_USER}updateUser/${userName}`, {
-      method: 'PUT',
-      body: JSON.stringify(newUserData),
-      // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("user"), 'Content-Type': 'application/json' },
-
-  }).catch((err) => {
-      console.log(err)
-    });
+  return await axios.put(`${API_URL_USER}updateUser/${userName}`,newUserData);
 }
 
 export const getUserRolesByUsername = async (userName) => {
-  const data = await axios(`${API_URL_USER}getUserRole/${userName}`, {
+  return await axios(`${API_URL_USER}getUserRole/${userName}`, {
       method: 'GET',
       // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("user") },
 
   })
-  const roles = await data.json();
-  return roles
+ 
 }

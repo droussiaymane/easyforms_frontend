@@ -41,25 +41,25 @@ function SimpleDialog(props) {
   const handleClick = () => {
     const roles = []
     if (read === true){
-        roles.push("UserRead")
+        roles.push("ROLE_UserRead")
     }
     if (edit === true){
-        roles.push("UserEdit")
+        roles.push("ROLE_UserEdit")
     }
     if (suppress === true){
-        roles.push("UserDelete")
+        roles.push("ROLE_UserDelete")
     }
 
     const userData = {
-        "userName": username,
-        "email": email,
+        "username": username,
+        "mail": email,
         "address": address,
-        "userPassword": password,
+        "password": password,
         "rolesName": roles
     }
  
 
-    createUser(userData)
+    createUser(userData).then(res=>console.log("created")).catch((err)=>console.log(err))
     handleClose()
   }
   const handleClose = () => {

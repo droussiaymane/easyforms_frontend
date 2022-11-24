@@ -10,17 +10,17 @@ export const UserDashboardPage = () => {
     const navigate = useNavigate();
    
     useEffect(()=>{
-        const role=authService.getCurrentRole();
         const islogged=authService.islogged()
 
         if(!islogged){
             authService.logout()
             navigate("/")
         }
+        
 
-        else if(role=='ROLE_ADMIN'){
-navigate("/AdminDashboard")
-        }
+      
+
+         
         
     },[])
     return(

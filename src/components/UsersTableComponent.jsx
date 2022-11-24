@@ -6,13 +6,13 @@ import ActionsComponent from "./ActionsComponent";
 
 function renderSwitch(role) {
     switch(role) {
-        case 'Admin':
+        case 'ROLE_ADMIN':
             return {permission: 'Admin', color: 'black'};
-        case 'UserEdit':
+        case 'ROLE_UserEdit':
             return {permission: 'Edit', color: 'blue'}
-        case 'UserDelete':
+        case 'ROLE_UserDelete':
             return {permission: 'Delete', color: 'red'}
-        case 'UserRead':
+        case 'ROLE_UserRead':
             return {permission: 'Read', color: 'green'}
         default:
             return null;
@@ -20,9 +20,11 @@ function renderSwitch(role) {
 }
 
 const columns = [
-  { field: 'userName', headerName: 'Username', width: 200 },
-  { field: 'email', headerName: 'Email', width: 300 },
+  { field: 'username', headerName: 'username', width: 200 },
+  { field: 'mail', headerName: 'Email', width: 300 },
   { field: 'registrationTime', headerName: 'Registration Time', width: 200},
+  { field: 'latestUpdate', headerName: 'latest update ', width: 200},
+  { field: 'active', headerName: 'Active ', width: 200},
   { field: 'role', 
     renderCell: (cellValues) => {
         return (
@@ -43,7 +45,7 @@ const columns = [
     { headerName: 'Actions', width: 100, 
         renderCell: (cellValues) => {
             return (
-                <ActionsComponent username={cellValues.rowNode.id} />
+                <ActionsComponent username={cellValues.rowNode.id} active={cellValues.row.active} />
             )
         },
     }];
@@ -51,17 +53,13 @@ const columns = [
 export default function UsersTableComponent() {
     const [users, setUsers] = useState([])
     useEffect(()=>{
-        getUsers().then(function(data){setUsers(data)})
+        getUsers().then((res)=>setUsers(res.data)).catch((err)=>console.log(err))
     },[])
 
-    useEffect(()=>{
-        console.log(users)
-    }, [users])
     return (
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid
                 rows={users}
-                getRowId={(row) => row.userName}
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5]}

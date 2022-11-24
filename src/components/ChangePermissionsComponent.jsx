@@ -44,23 +44,23 @@ export default function ChangePermissionsComponent(props) {
       var newPermissions = []
       if (read === true) {
         newPermissions.push({
-          "roleName": "UserRead",
+          "roleName": "ROLE_UserRead",
           "roleDescription": "Read Role for User"
         })
       }
       if (edit === true){
         newPermissions.push({
-          "roleName": "UserEdit",
+          "roleName": "ROLE_UserEdit",
           "roleDescription": "Edit Role for User"
         })
       }
       if (suppress === true){
         newPermissions.push({
-          "roleName": "UserDelete",
+          "roleName": "ROLE_UserDelete",
           "roleDescription": "Delete Role for User"
         })
       }
-      updateUserRoles(username, newPermissions)
+      updateUserRoles(username, newPermissions).then(res=>console.log(res)).catch((err)=>console.log(err))
       handleClosePopup()
     }
     

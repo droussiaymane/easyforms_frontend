@@ -55,8 +55,10 @@ export default function SignInComponent({globalRole}) {
                     {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" /> */}
                     <Button variant="contained" sx={{mt: 2}} fullWidth onClick={loginUser} >Sign In</Button>
                 </Box>
-                {showError && (<Message color="red" />)}
+<div style={{paddingTop:'10px'}}>
+{showError && (<Message color="red" />)}
 
+</div>
             </Box>
 
         </Container>

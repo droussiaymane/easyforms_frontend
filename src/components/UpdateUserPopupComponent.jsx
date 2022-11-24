@@ -41,10 +41,10 @@ export default function UpdateUserPopupComponent(props) {
             userPermissions.push(userRoles[i].roleName)
         }
         const newUserData = {
-            "userName": username,
-            "email": email,
+            "username": username,
+            "mail": email,
             "address": address,
-            "userPassword": password,
+            "password": password,
             "rolesName": userPermissions
         }
         updateUser(oldUsername, newUserData)
