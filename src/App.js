@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
 import PrivateRoute from './components/PrivateRoute';
+import FormBuilder from './components/FormBuilder';
 
 
 function App() {
@@ -25,7 +26,10 @@ function App() {
                  element={
                       <AdminDashboardPage />  
                     }/>
-          
+           <Route path="/createform" 
+                 element={
+                      <FormBuilder />  
+                    }/>
         </Routes>
       </div>
     
