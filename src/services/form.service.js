@@ -2,24 +2,29 @@ import axios from 'axios';
 
 import jwt_decode from "jwt-decode";
 
-export const getForms = async () =>{
-    const data = await axios('http://localhost:9090/getForms', {
-      method: 'GET',
-      // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("token") }
-    });
-    const forms = await data.json();
-    return forms  
+const API_URL_FORM="http://localhost:8895/form/"
+
+export const getForm = async (formId) =>{
+    return axios(API_URL_FORM+"get?id="+formId, {
+      method: 'GET' });
+     
 }
 
+export const getAllForms = async (formId) =>{
+  return axios(API_URL_FORM+"getallforms", {
+    method: 'GET' });
+}
+
+
+export function addForm(data,name) {
+  return axios.post(API_URL_FORM+"add?name="+name,  
+    data);
+}
+
+
 export const deleteForm = async (formId) =>{
-    return await axios(`http://localhost:9090/deleteForm/${formId}`, {
-      method: 'DELETE',
-      // credentials: 'include', // Don't forget to specify this if you need cookies
-      headers: { Authorization: 'Bearer ' + localStorage.getItem("token") }
-    }).catch((err) => {
-        console.log(err)
-    });  
+  return axios(API_URL_FORM+"delete?id="+formId, {
+    method: 'GET' });
 }
 
 export const updateForm = async (formId, newInputs) =>{

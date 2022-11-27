@@ -3,20 +3,29 @@ import { ReactFormBuilder } from 'react-form-builder2';
 import FormBuilderComponent from './FormBuilderComponent';
 import * as variables from '../utils/variables';
 import { TopBarComponent } from './TopBarComponent';
+import { getForm } from '../services/form.service';
+import { get } from 'jquery';
+import { getmyform } from '../utils/requests';
 var items = [{
   key: 'TextInput',
 }];
 
-class FormBuilderTop extends React.Component {
+
+class FormUpdateComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    name:""
+    name:"",
+    mydata:[]
     };
 
-
+   
   }
 
+onLoad = () => {
+    console.log('onLoad', "url");
+    return getmyform(2);
+  };
   render() {
     
     return (
@@ -40,7 +49,7 @@ class FormBuilderTop extends React.Component {
             </div>
         <ReactFormBuilder
           toolbarItems={items}
-          
+          onLoad={this.onLoad}
 />
 </div>
 </div>
@@ -51,5 +60,5 @@ class FormBuilderTop extends React.Component {
   }
 }
 
-export default FormBuilderTop;
+export default FormUpdateComponent;
 

@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { UserLoginPage } from './pages/UserLoginPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
@@ -7,13 +7,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
 import PrivateRoute from './components/PrivateRoute';
-import FormBuilder from './components/FormBuilder';
+import FormViewer from './pages/FormViewer';
+import GetAllForms from './pages/GetAllForms';
+import FormBuilderTop from './components/FormBuilderTop';
+import FormUpdateComponent from './components/FormUpdateComponent';
 
 
 function App() {
   return (
+  
+      <>
+
     <BrowserRouter>
-      <div className="App">
         {/* <TopBarComponent /> */}
         <Routes>
           <Route path="/user" element={<UserLoginPage />} />
@@ -28,12 +33,26 @@ function App() {
                     }/>
            <Route path="/createform" 
                  element={
-                      <FormBuilder />  
+                      <FormBuilderTop />  
+                    }/>
+                       <Route path="/updateform/:id" 
+                 element={
+                      <FormUpdateComponent />  
+                    }/>
+                     <Route path="/getform/:id" 
+                 element={
+                      <FormViewer/>  
+                    }/>
+                    <Route path="/getallforms" 
+                 element={
+                      <GetAllForms/>  
                     }/>
         </Routes>
-      </div>
     
     </BrowserRouter>
+
+    </>
+
   );
 }
 

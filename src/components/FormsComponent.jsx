@@ -2,12 +2,11 @@ import { Route, Navigate, redirect } from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import jwt_decode from "jwt-decode";
 import checkUser from "../common/auth";
-import { getForms } from "../services/form.service";
 import { TextField } from "@mui/material";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { getUserRole } from "../services/user.service";
-import { deleteForm, updateForm } from "../services/form.service";
+import { deleteForm, getForm, updateForm } from "../services/form.service";
 
 export default function FormsComponent() {  
     const [forms, setForms] = useState([])
@@ -25,7 +24,7 @@ export default function FormsComponent() {
       }
     const roles = getUserRole()
     useEffect(()=>{
-        getForms().then(function(data){setForms(data)})
+        getForm().then(function(data){setForms(data)})
         
     },[])
 
