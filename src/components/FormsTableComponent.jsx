@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 
 const columns = [
-  { field: 'name', headerName: 'Name', width: 600 },
+  { field: 'name', headerName: 'Name', width: 350 },
   { field: 'latestUpdate', headerName: 'Latest Update', width: 300 },
+  { field: 'active', headerName: 'Active', width: 300 },
     { headerName: 'Actions', width: 100, 
         renderCell: (cellValues) => {
             return (

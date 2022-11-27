@@ -22,6 +22,7 @@ export default function SignInComponent({globalRole}) {
     const [showError,setShowError]=useState(false);
     const [mail, setMail] = useState("")
     const [password, setPassword] = useState("")
+    const [message,setMessage]=useState(" Error ! Try again...")
     const navigate = useNavigate();
     async function loginUser(){
         AuthService.login(mail,password)
@@ -31,6 +32,7 @@ export default function SignInComponent({globalRole}) {
 })
 .catch((error)=>{
   setShowError(true);
+  setMessage(error.response.data.exception)
   console.log(error);
 })
       }
@@ -56,7 +58,7 @@ export default function SignInComponent({globalRole}) {
                     <Button variant="contained" sx={{mt: 2}} fullWidth onClick={loginUser} >Sign In</Button>
                 </Box>
 <div style={{paddingTop:'10px'}}>
-{showError && (<Message color="red" />)}
+{showError && (<Message color="red" message={message}/>)}
 
 </div>
             </Box>

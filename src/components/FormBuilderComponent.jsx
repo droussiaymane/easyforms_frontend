@@ -73,7 +73,7 @@ export default class FormBuilderComponent extends React.Component {
       <div className="clearfix" style={{ margin: '10px', width: '70%' }}>
         <h4 className="float-left">Preview</h4>
        
-<SaveFormComponent data={this.state.data} name={this.props.name} />
+<SaveFormComponent data={this.state.data} name={this.props.name} id={this.props.id}/>
         <button className="btn btn-default float-right" style={{ marginRight: '10px' }} onClick={this.showRoPreview.bind(this)}>Read Only Form</button>
 
      

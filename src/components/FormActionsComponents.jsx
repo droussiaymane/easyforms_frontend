@@ -22,7 +22,7 @@ import ChangePermissionsComponent from './ChangePermissionsComponent';
 import UpdateUserPopupComponent from './UpdateUserPopupComponent';
 import { blockUser, deleteUser ,impersionate} from '../services/user.service';
 import { useNavigate } from 'react-router-dom';
-import { deleteForm } from '../services/form.service';
+import { deleteForm, updateFormStatus } from '../services/form.service';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -30,7 +30,6 @@ export default function FormActionsComponents({ formId,active }) {
 const navigate=useNavigate();
   const [openToggle, setOpenToggle] = React.useState(false);
   const anchorRef = React.useRef(null);
-console.log(active)
   const [openPopupPermission, setOpenPopupPermission] = React.useState(false);
   const [openPopupUpdate, setOpenPopupUpdate] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
@@ -38,6 +37,7 @@ console.log(active)
   const handleClickOpenPopupView = () => {
 navigate("/getform/"+formId)};
   const handleClickOpenPopupUpdate = () => {
+    navigate("/updateform/"+formId);
     setOpenPopupUpdate(true);
   };
 
@@ -68,7 +68,10 @@ const handleClickOpenPopupImpersionate = (value) => {
   const handleToggle = () => {
     setOpenToggle((prevOpen) => !prevOpen);
   };
-
+  const handleClickOpenPopupPublish = () => {
+    updateFormStatus(formId).then((res)=>navigate("/getallforms")).catch(err=>console.log(err));
+  };
+  
   const handleCloseToggle = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -135,6 +138,7 @@ const handleClickOpenPopupImpersionate = (value) => {
                   >
                     <MenuItem onClick={(event) => {handleClickOpenPopupView(); handleCloseToggle(event); }}>View</MenuItem>
                     <MenuItem onClick={(event) => {handleClickOpenPopupUpdate(); handleCloseToggle(event); }}>Update</MenuItem>
+                    <MenuItem onClick={(event) => {handleClickOpenPopupPublish(); handleCloseToggle(event); }}>{active ? "Unpublish":"Publish"}</MenuItem>
                     <MenuItem onClick={(event) => handleRemove(event)}>Delete</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

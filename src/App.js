@@ -4,7 +4,6 @@ import './App.css';
 import { UserLoginPage } from './pages/UserLoginPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
 import PrivateRoute from './components/PrivateRoute';
 import FormViewer from './pages/FormViewer';
@@ -12,7 +11,8 @@ import GetAllForms from './pages/GetAllForms';
 import FormBuilderTop from './components/FormBuilderTop';
 import FormUpdateComponent from './components/FormUpdateComponent';
 
-
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import { GetAllUsers } from './pages/GetAllUsers';
 function App() {
   return (
   
@@ -22,6 +22,10 @@ function App() {
         {/* <TopBarComponent /> */}
         <Routes>
           <Route path="/user" element={<UserLoginPage />} />
+          <Route path="/getallusers" 
+                 element={
+                      <GetAllUsers/>  
+                    }/>
           <Route path="/" element={<UserLoginPage />} />
           <Route path="/userDashboard" 
                  element={
@@ -29,7 +33,7 @@ function App() {
                     }/>
           <Route path="/adminDashboard" 
                  element={
-                      <AdminDashboardPage />  
+                      <AdminDashboardPage/>  
                     }/>
            <Route path="/createform" 
                  element={

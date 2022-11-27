@@ -1,10 +1,9 @@
 import React from 'react'
 
-const Message = ({color}) => {
+const Message = ({color,message}) => {
   return (<>
     {color=='red' &&  <div class="alert alert-danger" role="alert">
- Error ! Try again...
-</div>
+{message}</div>
 
   
 }
