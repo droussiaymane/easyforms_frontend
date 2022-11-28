@@ -7,26 +7,15 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import PropTypes from 'prop-types';
-import { Container } from '@mui/system';
-import ChangePermissionsComponent from './ChangePermissionsComponent';
-import UpdateUserPopupComponent from './UpdateUserPopupComponent';
-import { blockUser, deleteUser ,impersionate} from '../services/user.service';
+
+import { blockUser ,getUserPersmissions,impersionate} from '../services/user.service';
 import { useNavigate } from 'react-router-dom';
 import { deleteForm, updateFormStatus } from '../services/form.service';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 export default function FormActionsComponents({ formId,active }) {
+  let userPermissions=getUserPersmissions();
 const navigate=useNavigate();
   const [openToggle, setOpenToggle] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -136,29 +125,19 @@ const handleClickOpenPopupImpersionate = (value) => {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={(event) => {handleClickOpenPopupView(); handleCloseToggle(event); }}>View</MenuItem>
-                    <MenuItem onClick={(event) => {handleClickOpenPopupUpdate(); handleCloseToggle(event); }}>Update</MenuItem>
-                    <MenuItem onClick={(event) => {handleClickOpenPopupPublish(); handleCloseToggle(event); }}>{active ? "Unpublish":"Publish"}</MenuItem>
-                    <MenuItem onClick={(event) => handleRemove(event)}>Delete</MenuItem>
+                  {(userPermissions.includes("ROLE_UserRead") || userPermissions.includes("ROLE_ADMIN")) &&(<MenuItem onClick={(event) => {handleClickOpenPopupView(); handleCloseToggle(event); }}>View</MenuItem>)}  
+                  {(userPermissions.includes("ROLE_UserEdit") || userPermissions.includes("ROLE_ADMIN")) &&(  <MenuItem onClick={(event) => {handleClickOpenPopupUpdate(); handleCloseToggle(event); }}>Update</MenuItem>)}
+                  {(userPermissions.includes("ROLE_ADMIN")) &&( <MenuItem onClick={(event) => {handleClickOpenPopupPublish(); handleCloseToggle(event); }}>{active ? "Unpublish":"Publish"}</MenuItem>)}
+                  {(userPermissions.includes("ROLE_UserDelete") || userPermissions.includes("ROLE_ADMIN")) &&(   <MenuItem onClick={(event) => handleRemove(event)}>Delete</MenuItem>)}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
             </Grow>
           )}
         </Popper>
-        <ChangePermissionsComponent
-            selectedValue={selectedValue}
-            openPopup={openPopupPermission}
-            onClose={handleClosePopupPermission}
-            username={formId}
-        />
+       
 
-        <UpdateUserPopupComponent
-            selectedValue={selectedValue}
-            openPopup={openPopupUpdate}
-            onClose={handleClosePopupUpdate}
-            oldUsername={formId}
-        />
+     
         
       </div>
     </Stack>

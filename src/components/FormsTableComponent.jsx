@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { getUsers } from "../services/user.service";
+import { getUserRole, getUsers } from "../services/user.service";
 import { Button } from "@mui/material";
 import { getAllForms } from "../services/form.service";
 import FormActionsComponents from "./FormActionsComponents";
@@ -20,6 +20,7 @@ const columns = [
     }];
 
 export default function FormsTableComponent() {
+    let userRole=getUserRole();
     const [forms, setForms] = useState([])
     const navigate=useNavigate();
     useEffect(()=>{
@@ -31,7 +32,7 @@ export default function FormsTableComponent() {
        <div>
   <div class="container">
         <div style={{ height: 500 }}>
-        <button type="button" class="btn btn-success btn-lg " onClick={()=>navigate("/createform")}>Create Form</button>
+       {userRole=="ADMIN"&&( <button type="button" class="btn btn-success btn-lg " onClick={()=>navigate("/createform")}>Create Form</button>)}
 <br></br>
 <br></br>
 

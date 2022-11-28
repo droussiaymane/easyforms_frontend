@@ -9,11 +9,22 @@ export const UserLoginPage = () => {
   let islogged=authService.islogged();
   
   useEffect(()=>{
-if(islogged){
-  navigate("/AdminDashboard")
-}
+    const role=authService.getCurrentRole();
+      const islogged=authService.islogged()
 
-},[])
+      if(islogged){
+        if(role.includes('ROLE_ADMIN')){
+            navigate('/AdminDashboard')
+        }
+        else{
+          navigate('/userDashboard')
+        }
+    }
+
+   
+})
+
+
     return(
         <SignInComponent globalRole={signInValue} />
     )

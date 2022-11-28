@@ -23,6 +23,9 @@ export const TopBarComponent = () => {
     const navigate = useNavigate();
     let userName=getUsername();
     let userRole=getUserRole();
+    useEffect(()=>{
+
+    })
 
     function handleLogout(){
         AuthService.logout();
@@ -62,11 +65,7 @@ localStorage.setItem("role",JSON.stringify('ROLE_ADMIN'))
                         >
                             TEAM SPACE APPLICATION
                         </Typography>
-                        <Button onClick={handleLogout}>
-                            <Avatar sx={{ bgcolor: pink[500] }}>
-                                <LogoutIcon />
-                            </Avatar>
-                        </Button>
+                      
                        
                       
                     </Stack>
@@ -90,14 +89,21 @@ localStorage.setItem("role",JSON.stringify('ROLE_ADMIN'))
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
    <Link to="/"> <a class="navbar-brand" >Home</a></Link>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
+
+{userRole=="ADMIN" &&(<li class="nav-item active">
       <Link to="/getallusers"> <a class="nav-link" >Users <span class="sr-only"></span></a></Link>
-      </li>
+      </li>)}
+      
       <li class="nav-item active">
       <Link to="/getallforms"> <a class="nav-link" >Forms <span class="sr-only"></span></a></Link>
       </li>
+
     </ul>
-  
+    <Button onClick={handleLogout}>
+                            <Avatar sx={{ bgcolor: pink[500] }}>
+                                <LogoutIcon />
+                            </Avatar>
+                        </Button>
   </div>
 </nav>
       </>

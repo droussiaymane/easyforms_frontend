@@ -10,19 +10,18 @@ export const UserDashboardPage = () => {
     const navigate = useNavigate();
    
     useEffect(()=>{
-        const islogged=authService.islogged()
-
-        if(!islogged){
+        const role=authService.getCurrentRole();
+          const islogged=authService.islogged()
+  
+          if(!islogged){
             authService.logout()
             navigate("/")
         }
-        
-
-      
-
-         
-        
-    },[])
+  
+        else if(role.includes('ROLE_ADMIN')){
+  navigate("/AdminDashboard")
+        }
+    })
     return(
         // <SignInComponent signInValue={signInValue} />
         <>

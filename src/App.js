@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import React from 'react';
 import './App.css';
 import { UserLoginPage } from './pages/UserLoginPage';
-import { AdminLoginPage } from './pages/AdminLoginPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { UserDashboardPage } from './pages/UserDashboardPage';
 import PrivateRoute from './components/PrivateRoute';

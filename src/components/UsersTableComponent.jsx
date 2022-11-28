@@ -25,6 +25,7 @@ const columns = [
   { field: 'registrationTime', headerName: 'Registration Time', width: 200},
   { field: 'latestUpdate', headerName: 'latest update ', width: 200},
   { field: 'active', headerName: 'Active ', width: 200},
+  { field: 'myrole', headerName: 'Role ', width: 200},
   { field: 'role', 
     renderCell: (cellValues) => {
         return (
@@ -45,7 +46,7 @@ const columns = [
     { headerName: 'Actions', width: 100, 
         renderCell: (cellValues) => {
             return (
-                <ActionsComponent username={cellValues.rowNode.id} active={cellValues.row.active} />
+                <ActionsComponent username={cellValues.rowNode.id} active={cellValues.row.active} role={cellValues.row.myrole} data={cellValues.row} />
             )
         },
     }];
@@ -53,7 +54,26 @@ const columns = [
 export default function UsersTableComponent() {
     const [users, setUsers] = useState([])
     useEffect(()=>{
-        getUsers().then((res)=>setUsers(res.data)).catch((err)=>console.log(err))
+        getUsers().then((res)=>{
+            const data=res.data.map(
+                (mydata)=>{
+                    if(mydata.myrole=="ROLE_ADMIN"){
+                        return {
+                            ...mydata,
+                            myrole:"ADMIN"
+                        }
+                    }
+                    else{
+                        return {
+                            ...mydata,
+                            myrole:"USER"
+                        }
+                    }
+                    
+                }
+                
+            )
+            setUsers(data)}).catch((err)=>console.log(err))
     },[])
 
     return (

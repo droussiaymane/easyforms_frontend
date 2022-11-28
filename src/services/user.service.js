@@ -26,6 +26,10 @@ role="USER"
   }
   return role
 }
+export function getUserPersmissions(){
+  let role = String(JSON.parse(localStorage.getItem("role")))
+  return role;
+}
 
 export const getUsers = async () => {
   return await axios(API_URL_USER+'getUsers', {

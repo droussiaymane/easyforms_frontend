@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-export default function ActionsComponent({ username,active }) {
+export default function ActionsComponent({ username,active,role,data }) {
 const navigate=useNavigate();
   const [openToggle, setOpenToggle] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -133,7 +133,7 @@ const handleClickOpenPopupImpersionate = (value) => {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={(event) => {handleClickOpenPopupPermission(); handleCloseToggle(event); }}>Change Permissions</MenuItem>
+                  {role!="ADMIN" && <MenuItem onClick={(event) => {handleClickOpenPopupPermission(); handleCloseToggle(event); }}>Change Permissions</MenuItem>}  
                     <MenuItem onClick={(event) => {handleClickOpenPopupUpdate(); handleCloseToggle(event); }}>Update</MenuItem>
                     <MenuItem onClick={(event) => {handleClickOpenPopupImpersionate(); handleCloseToggle(event); }}>Impersionate</MenuItem>
                     <MenuItem onClick={(event) => {handleClickOpenPopupBlock(); handleCloseToggle(event); }}>{active ? <>Block</>:<>Unlock</>}</MenuItem>
@@ -152,6 +152,7 @@ const handleClickOpenPopupImpersionate = (value) => {
         />
 
         <UpdateUserPopupComponent
+            data={data}
             selectedValue={selectedValue}
             openPopup={openPopupUpdate}
             onClose={handleClosePopupUpdate}

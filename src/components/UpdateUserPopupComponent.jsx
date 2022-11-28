@@ -15,19 +15,26 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { updateUser } from '../services/user.service';
 import { getUserRolesByUsername } from '../services/user.service';
+import { Radio, RadioGroup } from "@mui/material";
 
 export default function UpdateUserPopupComponent(props) {
     const { onClose, selectedValue, openPopup, oldUsername } = props;
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState(props.data.username)
+    const [email, setEmail] = useState(props.data.mail)
     const [password, setPassword] = useState("")
-    const [address, setAddress] = useState("")
+    const [address, setAddress] = useState(props.data.address)
     const [userRoles, setUserRoles] = useState()
+    const [myrole, setMyrole] = useState(props.data.myrole)
+
+    const handleChange = (event) => {
+        setMyrole(event.target.value)
+      };
     const handleClosePopup = () => {
       onClose(selectedValue);
     };
 
     useEffect(()=>{
+        console.log(props.data)
         getUserRolesByUsername(oldUsername).then(function(data){setUserRoles(data)})
     },[])
 
@@ -36,16 +43,13 @@ export default function UpdateUserPopupComponent(props) {
     }, [userRoles])
 
     const handleUpdate = () => {
-        var userPermissions = []
-        for (var i=0; i<userRoles.length; i++){
-            userPermissions.push(userRoles[i].roleName)
-        }
+     
         const newUserData = {
             "username": username,
             "mail": email,
             "address": address,
             "password": password,
-            "rolesName": userPermissions
+            "myrole": myrole
         }
         updateUser(oldUsername, newUserData)
         handleClosePopup()
@@ -62,17 +66,33 @@ export default function UpdateUserPopupComponent(props) {
                 width: "80%"
             }}>
                 <Box component="form" noValidate sx={{mt: 1}}>
-                    <TextField  size="small" onChange={(e) => setUsername(e.target.value)} id="outlined-basic" label="Username" variant="outlined" fullWidth margin="normal"/>
-                    <TextField  size="small" onChange={(e) => setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal"/>
-                    <TextField  size="small" onChange={(e) => setAddress(e.target.value)} id="outlined-basic" label="Address" variant="outlined" fullWidth margin="normal"/>
+                    <TextField value={username}  size="small" onChange={(e) => setUsername(e.target.value)} id="outlined-basic" label="Username" variant="outlined" fullWidth margin="normal"/>
+                    <TextField value={email} size="small" onChange={(e) => setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal"/>
+                    <TextField value={address}  size="small" onChange={(e) => setAddress(e.target.value)} id="outlined-basic" label="Address" variant="outlined" fullWidth margin="normal"/>
                     
-                    <TextField type="password" size="small" onChange={(e) => setPassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" fullWidth margin="normal"/>
+                    <TextField type="password" size="small" onChange={(e) => setPassword(e.target.value)} id="outlined-basic" label="New Password" variant="outlined" fullWidth margin="normal"/>
                     {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" /> */}
                 </Box>
 
             </Box>
+            <FormControl
+            required
+            component="fieldset"
+            sx={{ width: "50%" }}
+            variant="standard"
+        >
+            <FormLabel component="legend">Role</FormLabel>
+            <RadioGroup  onChange={handleChange} defaultValue={props.data.myrole=="ADMIN" ? "ROLE_ADMIN" : "ROLE_USER"}>
 
+            <FormControlLabel value="ROLE_ADMIN" control={<Radio />} label="ADMIN" />
+    <FormControlLabel value="ROLE_USER" control={<Radio />} label="USER" />
+            </RadioGroup>
+              
+            
+          
+        </FormControl>
         </Container> 
+        
         {/* onClick={handleClick} */}
         <Button variant="contained" onClick={handleUpdate} sx={{mt: 2}} fullWidth >Confirm</Button>
       </Dialog>

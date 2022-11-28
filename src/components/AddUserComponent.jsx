@@ -21,41 +21,103 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { createUser } from '../services/user.service';
+import { Radio, RadioGroup } from "@mui/material";
+import Joi from 'joi-browser';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
 
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [address, setAddress] = useState("")
 
-  const [state, setState] = React.useState({
-    read: true,
-    edit: false,
-    suppress: false,
+  const formErrors= {email: 'Please enter a valid email', password: 'Password is required'};
+  const [emailValid, setEmailValid] = useState(false)
+    
+
+
+
+  const [user, setUser] = useState({
+    username:"",
+    email: "",
+   password:"",
+   address:"",
+   myrole:"ROLE_USER"
   });
   
-  const handleClick = () => {
-    const roles = []
-    if (read === true){
-        roles.push("ROLE_UserRead")
+  const [errors, setErrors] = useState({});
+  const schema = {
+    username: Joi.string().required(),
+    address: Joi.string().required(),
+    email: Joi.string().email().required(),
+  password:Joi.string().min(8).required(),
+  myrole:Joi.string()
+  };
+
+  const validateForm = (event) => {
+    event.preventDefault();
+    const result = Joi.validate(user, 
+        schema, { abortEarly: false });
+    console.log(result);
+    const { error } = result;
+    if (!error) {
+        handleClick(user)
+        clearState()
+      return null;
+    } else {
+      const errorData = {};
+      for (let item of error.details) {
+        const name = item.path[0];
+        const message = item.message;
+        errorData[name] = message;
+      }
+      console.log(errors);
+      setErrors(errorData);
+      return errorData;
     }
-    if (edit === true){
-        roles.push("ROLE_UserEdit")
+  };
+  const handleSave = (event) => {
+    const { name, value } = event.target;
+    let errorData = { ...errors };
+    const errorMessage = validateProperty(event);
+    if (errorMessage) {
+      errorData[name] = errorMessage;
+    } else {
+      delete errorData[name];
     }
-    if (suppress === true){
-        roles.push("ROLE_UserDelete")
-    }
+    let userData = { ...user };
+    userData[name] = value;
+    setUser(userData);
+    setErrors(errorData);
+  };
+
+  const validateProperty = (event) => {
+    const { name, value } = event.target;
+    const obj = { [name]: value };
+    const subSchema = { [name]: schema[name] };
+    const result = Joi.validate(obj, subSchema);
+    const { error } = result;
+    return error ? error.details[0].message : null;
+  };
+  const clearState = () => {
+    setUser({ 
+      username:"",
+      email: "",
+     password:"",
+     address:"",
+     myrole:"ROLE_USER"
+    });
+  };
+
+ 
+  const handleClick = (user) => {
+   
 
     const userData = {
-        "username": username,
-        "mail": email,
-        "address": address,
-        "password": password,
-        "rolesName": roles
+        "username": user.username,
+        "mail": user.email,
+        "address": user.address,
+        "password": user.password,
+        "myrole": user.myrole
     }
  
 
@@ -70,14 +132,7 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
-  const { read, edit, suppress } = state;
-  const error = [read, edit, suppress].filter((v) => v).length === 0;
+
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -93,12 +148,38 @@ function SimpleDialog(props) {
                 width: "80%"
             }}>
                 <Box component="form" noValidate sx={{mt: 1}}>
-                    <TextField  size="small" onChange={(e) => setUsername(e.target.value)} id="outlined-basic" label="Username" variant="outlined" fullWidth margin="normal"/>
-                    <TextField  size="small" onChange={(e) => setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal"/>
-                    <TextField  size="small" onChange={(e) => setAddress(e.target.value)} id="outlined-basic" label="Address" variant="outlined" fullWidth margin="normal"/>
-                    
-                    <TextField  type="password" size="small" onChange={(e) => setPassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" fullWidth margin="normal"/>
-                    {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" /> */}
+                    <TextField value={user.username} name="username"
+ onChange={handleSave} size="small" id="outlined-basic" label="Username" variant="outlined" fullWidth margin="normal"/>
+  
+                    <TextField value={user.email} name="email"
+ onChange={handleSave} size="small"  id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal"/>
+   
+                    <TextField value={user.address} name="address"
+ onChange={handleSave} size="small"  id="outlined-basic" label="Address" variant="outlined" fullWidth margin="normal"/>
+                     
+                    <TextField value={user.password} name="password"
+ onChange={handleSave} size="small" type="password" size="small" id="outlined-basic" label="Password" variant="outlined" fullWidth margin="normal"/>
+  {errors.password && (
+          <div className="alert alert-danger">
+            {errors.password=='"password" length must be at least 8 characters long' ? 'Password length must be at least 8 characters long' :'Password is required' }
+          </div>
+        )}
+                 {errors.username && (
+          <div className="alert alert-danger">
+            {errors.username && 'Username is required'}
+          </div>
+        )}  
+         {errors.email && (
+                <div className="alert alert-danger">
+
+            {errors.email=='"email" must be a valid email' ? 'Please enter a valid email' : 'Email is required'}
+          </div>
+        )}      {errors.address && (
+          <div className="alert alert-danger">
+
+      {errors.address && 'Address is required'}
+    </div>
+  )}   {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" /> */}
                 </Box>
 
             </Box>
@@ -107,35 +188,23 @@ function SimpleDialog(props) {
 
         <FormControl
             required
-            error={error}
             component="fieldset"
             sx={{ width: "50%" }}
             variant="standard"
         >
-            <FormLabel component="legend">Permissions</FormLabel>
-            <FormGroup>
-            <FormControlLabel
-                control={
-                <Checkbox checked={read} onChange={handleChange} name="read" />
-                }
-                label="Read"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox checked={edit} onChange={handleChange} name="edit" />
-                }
-                label="Edit"
-            />
-            <FormControlLabel
-                control={
-                <Checkbox checked={suppress} onChange={handleChange} name="suppress" />
-                }
-                label="Delete"
-            />
-            </FormGroup>
+            <FormLabel component="legend">Role</FormLabel>
+            <RadioGroup defaultValue={user.myrole} onChange={handleSave} name="myrole">
+
+            <FormControlLabel value="ROLE_ADMIN" control={<Radio />} label="ADMIN" />
+    <FormControlLabel value="ROLE_USER" control={<Radio />} label="USER" />
+            </RadioGroup>
+              
+            
+          
         </FormControl>
       </Box>
-      <Button variant="contained" sx={{mt: 2}} fullWidth onClick={handleClick}>Create New User</Button>
+      <Button variant="contained" sx={{mt: 2}} fullWidth  type="submit"
+      onClick={validateForm}>Create New User</Button>
 
     </Dialog>
   );

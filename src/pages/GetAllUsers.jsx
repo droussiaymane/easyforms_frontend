@@ -20,7 +20,7 @@ export const GetAllUsers = () => {
         }
 
         else if(!role.includes('ROLE_ADMIN')){
-navigate("/userDashboard")
+navigate("/UserDashboard")
         }
         
     },[])
