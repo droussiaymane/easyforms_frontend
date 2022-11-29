@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import jwt_decode from "jwt-decode";
 
-const API_URL_FORM="http://localhost:8895/form/"
+const API_URL_FORM="http://localhost:8080/form/"
 
 export const getForm = async (formId) =>{
     return axios(API_URL_FORM+"get?id="+formId, {

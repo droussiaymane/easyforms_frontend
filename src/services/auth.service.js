@@ -1,12 +1,20 @@
 import axios from "axios";
-const API_URL_AUTH='http://localhost:8898/';
+const API_URL_AUTH='http://localhost:8080/auth/';
 class AuthService {
+  
   login(mail, password) {
+    let config = {
+      headers: {
+        'Access-Control-Allow-Origin': "http://localhost:3000",
+        "Access-Control-Allow-Headers": "X-Requested-With"
+      }
+    }
     return axios
       .post(API_URL_AUTH + "login", {
         mail,
         password
-      })
+      },config
+      )
       .then(response => {
         if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data.token));

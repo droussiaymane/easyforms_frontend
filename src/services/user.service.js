@@ -4,7 +4,7 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import authService from './auth.service';
 
-const API_URL_USER="http://localhost:8899/";
+const API_URL_USER="http://localhost:8080/user/";
 
 export function getUsername(){
   const token = localStorage.getItem("user")

@@ -97,6 +97,7 @@ export default function SignInComponent({globalRole}) {
 })
 .catch((error)=>{
   setShowError(true);
+  console.log(error.response)
   setMessage(error.response.data.exception)
   console.log(error);
 })
