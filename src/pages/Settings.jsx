@@ -83,32 +83,73 @@ const Settings = () => {
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">Name</label>
-                        <input class="form-control" type="text" id="account-fn" name="name" value={user.name} onChange={handleSave}required/>
+                        <input disabled class="form-control" type="text" id="name" name="name" value={user.name} onChange={handleSave}required/>
+                      <div style={{paddingTop:'10px'}}><button type="button" onClick={(e)=>{
+                        let input=document.getElementById('name');
+                        input.disabled=false
+                        e.target.hidden=true
+                        let mybutton=document.getElementById('mybutton');
+                        mybutton.disabled=false
+                    }
+                        }  class="btn btn-secondary">Edit</button></div>  
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">Username</label>
-                        <input class="form-control"  type="text" id="account-fn" name="username" value={user.username} onChange={handleSave} required/>
-                    </div>
+                        <input disabled class="form-control"  type="text" id="username" name="username" value={user.username} onChange={handleSave} required/>
+                        <div style={{paddingTop:'10px'}}><button type="button" onClick={(e)=>{
+                        let input=document.getElementById('username');
+                        input.disabled=false
+                        e.target.hidden=true
+                        let mybutton=document.getElementById('mybutton');
+                        mybutton.disabled=false
+                        
+                    }
+                        }  class="btn btn-secondary">Edit</button></div>  
+                                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-ln">Address</label>
-                        <input class="form-control" type="text" id="account-ln" name="address" value={user.address} onChange={handleSave} required/>
+                        <input  disabled class="form-control" type="text" id="address" name="address" value={user.address} onChange={handleSave} required/>
+                        <div style={{paddingTop:'10px'}}><button type="button" onClick={(e)=>{
+                        let input=document.getElementById('address');
+                        input.disabled=false
+                        e.target.hidden=true
+                        let mybutton=document.getElementById('mybutton');
+                        mybutton.disabled=false
+                    }
+                        }  class="btn btn-secondary">Edit</button></div>  
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-email">E-mail Address</label>
-                        <input class="form-control" type="email" id="account-email" name="mail" value={user.mail} onChange={handleSave} disabled=""/>
+                        <input disabled class="form-control" type="email" id="mail" name="mail" value={user.mail} onChange={handleSave} />
+                        <div  style={{paddingTop:'10px'}}><button type="button" onClick={(e)=>{
+                        let input=document.getElementById('mail');
+                        input.disabled=false
+                        e.target.hidden=true
+                        let mybutton=document.getElementById('mybutton');
+                        mybutton.disabled=false
+                    }
+                        }  class="btn btn-secondary">Edit</button></div>  
                     </div>
                 </div>
               
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-pass">New Password</label>
-                        <input class="form-control" placeholder='Enter the new password'  type="password" name="password" id="account-pass" onChange={handleSave} required/>
+                        <input disabled class="form-control" placeholder='Enter the new password'  type="password" name="password" id="password" onChange={handleSave} required/>
+                        <div  style={{paddingTop:'10px'}}><button type="button" onClick={(e)=>{
+                        let input=document.getElementById('password');
+                        input.disabled=false
+                        e.target.hidden=true
+                        let mybutton=document.getElementById('mybutton');
+                        mybutton.disabled=false
+                    }
+                        }  class="btn btn-secondary">Edit</button></div>  
                     </div>
                 </div>
                
@@ -116,7 +157,7 @@ const Settings = () => {
                     <hr class="mt-2 mb-3"></hr>
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
 
-                        <button class="btn btn-style-1 btn-primary"   onClick={validateForm} type="button"  data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                        <button disabled class="btn btn-style-1 btn-primary"  id="mybutton"  onClick={validateForm} type="button"  data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
                     </div>
                     <div style={{paddingTop:'10px'}}>
 {showError && (<Message color="red" message={message}/>)}
