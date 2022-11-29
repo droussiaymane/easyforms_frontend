@@ -38,6 +38,13 @@ export const getUsers = async () => {
   });
    
 }
+export const getUserByEmail = async (email) => {
+  return await axios(API_URL_USER+'getUser?email='+email, {
+      method: 'GET',
+      // credentials: 'include', // Don't forget to specify this if you need cookies
+  });
+   
+}
 export const impersionate =  (userId) => {
 // userid to    impersionate
 // logout 
@@ -84,6 +91,10 @@ export const deleteUser = async (userName) => {
 export const updateUser = async (userName, newUserData) => {
   return await axios.put(`${API_URL_USER}updateUser/${userName}`,newUserData);
 }
+export const updateUserByEmail = async (userName, newUserData) => {
+  return await axios.put(`${API_URL_USER}updateUserByEmail/${userName}`,newUserData);
+}
+
 
 export const getUserRolesByUsername = async (userName) => {
   return await axios(`${API_URL_USER}getUserRole/${userName}`, {

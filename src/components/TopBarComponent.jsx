@@ -66,17 +66,27 @@ localStorage.setItem("role",JSON.stringify('ROLE_ADMIN'))
                             TEAM SPACE APPLICATION
                         </Typography>
                       
-                       
+
                       
                     </Stack>
                     <div className="marginLeft">
+                        
                         <p
                             
                             >
-                                EMAIL : {userName} , 
-                                ROLE : {userRole}<span> </span>
-                               {switched=='true' &&  <Button onClick={switchHandle} style={{ backgroundColor:"white"}}>SWITCH BACK</Button>}
+                                                              {switched=='true' &&  <Button onClick={switchHandle} style={{ backgroundColor:"white"}}>SWITCH BACK</Button>}
+
+                               <div class="dropdown paddingLeftPlus">
+
+  <button style={{fontSize:'x-large'}} id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class=" btn btn-style-1 btn-primary avatar avatar-48 bg-white text-dark rounded-2">{userName && (userName.charAt(0))}</button>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <Link to="/settings">  <a class="dropdown-item" >Settings</a></Link>
+  </div>
+</div>
+
                             </p>
+
                         </div>
                 </Toolbar>
                
@@ -99,12 +109,19 @@ localStorage.setItem("role",JSON.stringify('ROLE_ADMIN'))
       </li>
 
     </ul>
+    <p className="paddingLeftPlus">
+                                EMAIL : {userName} , 
+                                ROLE : {userRole}<span> </span>
+                              
+                          
     <Button onClick={handleLogout}>
                             <Avatar sx={{ bgcolor: pink[500] }}>
                                 <LogoutIcon />
                             </Avatar>
                         </Button>
+                        </p>
   </div>
+
 </nav>
       </>
     )

@@ -12,6 +12,7 @@ import FormUpdateComponent from './components/FormUpdateComponent';
 
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import { GetAllUsers } from './pages/GetAllUsers';
+import Settings from './pages/Settings';
 function App() {
   return (
   
@@ -49,6 +50,10 @@ function App() {
                     <Route path="/getallforms" 
                  element={
                       <GetAllForms/>  
+                    }/>
+                     <Route path="/settings" 
+                 element={
+                      <Settings/>  
                     }/>
         </Routes>
     

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { getUsers } from "../services/user.service";
+import { getUsername, getUsers } from "../services/user.service";
 import { Button } from "@mui/material";
 import ActionsComponent from "./ActionsComponent";
 
@@ -52,10 +52,12 @@ const columns = [
     }];
 
 export default function UsersTableComponent() {
+    let email=getUsername();
+
     const [users, setUsers] = useState([])
     useEffect(()=>{
         getUsers().then((res)=>{
-            const data=res.data.map(
+            let data=res.data.map(
                 (mydata)=>{
                     if(mydata.myrole=="ROLE_ADMIN"){
                         return {
@@ -69,11 +71,11 @@ export default function UsersTableComponent() {
                             myrole:"USER"
                         }
                     }
+                 
                     
-                }
-                
-            )
-            setUsers(data)}).catch((err)=>console.log(err))
+                  }) 
+             let newdata=data.filter(mydata=> mydata.mail!=email)
+            setUsers(newdata)}).catch((err)=>console.log(err))
     },[])
 
     return (

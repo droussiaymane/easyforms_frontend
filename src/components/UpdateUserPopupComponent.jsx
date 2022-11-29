@@ -70,7 +70,7 @@ export default function UpdateUserPopupComponent(props) {
                     <TextField value={email} size="small" onChange={(e) => setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" fullWidth margin="normal"/>
                     <TextField value={address}  size="small" onChange={(e) => setAddress(e.target.value)} id="outlined-basic" label="Address" variant="outlined" fullWidth margin="normal"/>
                     
-                    <TextField type="password" size="small" onChange={(e) => setPassword(e.target.value)} id="outlined-basic" label="New Password" variant="outlined" fullWidth margin="normal"/>
+                    <TextField type="password" placeholder='**********'  size="small" onChange={(e) => setPassword(e.target.value)} id="outlined-basic" required variant="outlined" fullWidth margin="normal"/>
                     {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" /> */}
                 </Box>
 
@@ -94,7 +94,7 @@ export default function UpdateUserPopupComponent(props) {
         </Container> 
         
         {/* onClick={handleClick} */}
-        <Button variant="contained" onClick={handleUpdate} sx={{mt: 2}} fullWidth >Confirm</Button>
+        <Button variant="contained" type="button" onClick={handleUpdate} sx={{mt: 2}} fullWidth >Confirm</Button>
       </Dialog>
     );
   }
