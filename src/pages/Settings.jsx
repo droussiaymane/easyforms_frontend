@@ -11,6 +11,7 @@ const Settings = () => {
     let email=getUsername();
     const [showError,setShowError]=useState(false);
 
+    const [buttondisbaled,setButtondisbaled]=useState(true)
     const [message,setMessage]=useState(" Error ! Try again...")
     const [user, setUser] = useState({
         name:"",
@@ -20,6 +21,9 @@ const Settings = () => {
        address:""});
 
      function  handleSave(event){
+
+        setButtondisbaled(false)
+
         let userData = { ...user };
         userData[event.target.name] = event.target.value;
         setUser(userData);
@@ -88,8 +92,6 @@ const Settings = () => {
                         let input=document.getElementById('name');
                         input.disabled=false
                         e.target.hidden=true
-                        let mybutton=document.getElementById('mybutton');
-                        mybutton.disabled=false
                     }
                         }  class="btn btn-secondary">Edit</button></div>  
                     </div>
@@ -102,8 +104,7 @@ const Settings = () => {
                         let input=document.getElementById('username');
                         input.disabled=false
                         e.target.hidden=true
-                        let mybutton=document.getElementById('mybutton');
-                        mybutton.disabled=false
+
                         
                     }
                         }  class="btn btn-secondary">Edit</button></div>  
@@ -117,8 +118,7 @@ const Settings = () => {
                         let input=document.getElementById('address');
                         input.disabled=false
                         e.target.hidden=true
-                        let mybutton=document.getElementById('mybutton');
-                        mybutton.disabled=false
+
                     }
                         }  class="btn btn-secondary">Edit</button></div>  
                     </div>
@@ -131,8 +131,7 @@ const Settings = () => {
                         let input=document.getElementById('mail');
                         input.disabled=false
                         e.target.hidden=true
-                        let mybutton=document.getElementById('mybutton');
-                        mybutton.disabled=false
+
                     }
                         }  class="btn btn-secondary">Edit</button></div>  
                     </div>
@@ -146,8 +145,7 @@ const Settings = () => {
                         let input=document.getElementById('password');
                         input.disabled=false
                         e.target.hidden=true
-                        let mybutton=document.getElementById('mybutton');
-                        mybutton.disabled=false
+
                     }
                         }  class="btn btn-secondary">Edit</button></div>  
                     </div>
@@ -157,7 +155,7 @@ const Settings = () => {
                     <hr class="mt-2 mb-3"></hr>
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
 
-                        <button disabled class="btn btn-style-1 btn-primary"  id="mybutton"  onClick={validateForm} type="button"  data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                        <button disabled={buttondisbaled}   class="btn btn-style-1 btn-primary"  id="mybutton"  onClick={validateForm} type="button"  data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
                     </div>
                     <div style={{paddingTop:'10px'}}>
 {showError && (<Message color="red" message={message}/>)}

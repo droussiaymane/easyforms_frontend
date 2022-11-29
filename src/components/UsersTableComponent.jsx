@@ -75,7 +75,7 @@ export default function UsersTableComponent() {
                     
                   }) 
              let newdata=data.filter(mydata=> mydata.mail!=email)
-            setUsers(newdata)}).catch((err)=>console.log(err))
+            setUsers(data)}).catch((err)=>console.log(err))
     },[])
 
     return (
