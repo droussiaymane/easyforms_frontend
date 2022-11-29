@@ -50,7 +50,7 @@ navigate("/getform/"+formId)};
 const handleClickOpenPopupImpersionate = (value) => {
   
   impersionate(formId).then((res)=>navigate("/userDashboard")).catch(err=>console.log(err));
-  sessionStorage.setItem("switched",true)
+  localStorage.setItem("switched",true)
   setOpenPopupUpdate(false);
 };
 

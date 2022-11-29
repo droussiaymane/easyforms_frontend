@@ -61,7 +61,7 @@ console.log(active)
 const handleClickOpenPopupImpersionate = (value) => {
   
   impersionate(username).then((res)=>navigate("/userDashboard")).catch(err=>console.log(err));
-  sessionStorage.setItem("switched",true)
+  localStorage.setItem("switched",true)
   setOpenPopupUpdate(false);
 };
 

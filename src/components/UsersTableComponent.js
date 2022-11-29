@@ -20,10 +20,10 @@ function renderSwitch(role) {
 }
 
 const columns = [
-  { field: 'username', headerName: 'username', width: 200 },
+  { field: 'username', headerName: 'UserName', width: 200 },
   { field: 'mail', headerName: 'Email', width: 300 },
   { field: 'registrationTime', headerName: 'Registration Time', width: 200},
-  { field: 'latestUpdate', headerName: 'latest update ', width: 200},
+  { field: 'latestUpdate', headerName: 'Updated On ', width: 200},
   { field: 'active', headerName: 'Active ', width: 200},
   { field: 'myrole', headerName: 'Role ', width: 200},
   { field: 'role', 

@@ -1,7 +1,6 @@
 import axios from "axios";
 const API_URL_AUTH='http://localhost:8080/auth/';
 class AuthService {
-  
   login(mail, password) {
     let config = {
       headers: {
@@ -15,6 +14,7 @@ class AuthService {
         password
       },config
       )
+      
       .then(response => {
         if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data.token));
@@ -31,7 +31,7 @@ class AuthService {
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data.token));
         localStorage.setItem("id", JSON.stringify(response.data.id));
-        localStorage.setItem("role", JSON.stringify("ROLE_USER"));
+        localStorage.setItem("role", JSON.stringify(response.data.role));
 
       }
       return response.data;

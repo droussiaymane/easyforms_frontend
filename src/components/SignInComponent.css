@@ -1,0 +1,8 @@
+.singupBox {
+  height: 100%;
+  width: 100%;
+position: absolute;
+z-index: -3;
+top: 0;
+left: 0
+}
